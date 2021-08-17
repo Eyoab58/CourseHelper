@@ -11,15 +11,16 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
   
   
    
-    @IBOutlet weak var tableView: UITableView!
-    
+   
+    @IBOutlet weak var courseTableView: UITableView?
     
     
     var classesOG = [String]()
     
     override func viewDidLoad() {
         
-        
+        courseTableView?.dataSource = self
+        courseTableView?.delegate = self
         
         fetchClassData { [weak self] (classes2) in
             for classes in classes2 {
@@ -28,7 +29,7 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
                 //print(self.classesOG)
             }
             
-            self?.tableView.reloadData()
+            self?.courseTableView?.reloadData()
         }
        
     }
@@ -84,10 +85,10 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cell = self.tableView.dequeueReusableCell(withIdentifier: "ClassesTableViewCell", for: indexPath) as! ClassesTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ClassesTableViewCell", for: indexPath) as! ClassesTableViewCell
         
         let classes = classesOG[indexPath.row]
-        cell.className.text = classes
+        cell.courseName.text = classes
         return cell
     }
     
