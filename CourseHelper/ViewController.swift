@@ -96,6 +96,23 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
 
 
 
+class FirstViewController: UIViewController{
+    
+    
+    @IBOutlet weak var btnClickOnMe: UIButton!
+    
+    override func viewDidLoad() {
+            super.viewDidLoad()
+        btnClickOnMe.addTarget(self, action: #selector(tapOnButton), for: .touchUpInside)
+        
+    }
+    
+    @objc func tapOnButton(){
+        let story = UIStoryboard(name: "Main", bundle: nil)
+        let controller = story.instantiateViewController(identifier: "ViewController") as! ViewController
+        self.present(controller, animated: true, completion: nil)
+    }
+}
 
 
 
