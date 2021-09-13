@@ -7,20 +7,25 @@
 
 import UIKit
 
-class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate {
+class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate, UISearchBarDelegate {
   
   
    
+    @IBOutlet weak var searchBar: UITableView!
+    
    
     @IBOutlet weak var courseTableView: UITableView?
     
     
     var classesOG = [String]()
+    var filteredData:[String]!
+    
     
     override func viewDidLoad() {
         
         courseTableView?.dataSource = self
         courseTableView?.delegate = self
+       
         
         fetchClassData { [weak self] (classes2) in
             for classes in classes2 {
@@ -33,6 +38,13 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
         }
        
     }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String){
+        print(searchText)
+    }
+    
+    
+    
     
     
     func fetchClassData(completionHandler: @escaping ([classes]) -> Void){
@@ -91,6 +103,27 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
         cell.courseName.text = classes
         return cell
     }
+    
+    
+  
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String){
+
+        filteredData = []
+
+        if searchText == ""{
+            filteredData = classesOG
+        }else{
+
+        for classes in classesOG {
+            if classes.lowercased().contains(searchText.lowercased()){
+
+                filteredData.append(classes)
+           }
+        }
+    }
+        self.courseTableView?.reloadData()
+  }
+    
     
 }
 
